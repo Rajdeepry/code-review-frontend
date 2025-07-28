@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+   
+   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body class="dark sticky-footer">
+    <body class="dark">
+      <canvas id="starsCanvas"></canvas>
+
+  <header>
+     <div class="heading">Code Review Tool</div>
+     <button id="toggleTheme" aria-label="Toggle theme">
+    <span class="icon" id="themeIcon">🌙</span>
+  </button>
+  </header>
+  
+</body>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+document.getElementById("toggleTheme").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  document.body.classList.toggle("light");
+
+  const icon = document.getElementById("themeIcon");
+  if (document.body.classList.contains("light")) {
+    icon.textContent = "☀️"; // Sun
+  } else {
+    icon.textContent = "🌙"; // Moon
+  }
+  
+})
+
+
+</script>
+
+<script>
+  const canvas = document.getElementById('starsCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let stars = [];
+
+  function initStars() {
+    const count = 100;
+    stars = [];
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1.5,
+        speed: Math.random() * 0.5 + 0.2
+      });
+    }
+  }
+
+  function animateStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+
+    stars.forEach(star => {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
+      ctx.fill();
+
+      star.y += star.speed;
+      if (star.y > canvas.height) {
+        star.y = 0;
+        star.x = Math.random() * canvas.width;
+      }
+    });
+
+    requestAnimationFrame(animateStars);
+  }
+
+  window.addEventListener('resize', initStars);
+  initStars();
+  animateStars();
+</script>
+
+  </body>
+  <footer>
+    Made with ❤️ by <span>Rajdeep Choudhury</span>
+  </footer>
+</html>
