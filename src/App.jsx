@@ -8,15 +8,48 @@ import "highlight.js/styles/github-dark.css";
 import axios from 'axios'
 import './App.css'
 
+import TestConnection from "./TestConnection";
+
 function App() {
   const [ count, setCount ] = useState(0)
   const [ code, setCode ] = useState(`Review your COde in Rplatform`)
 
   const [ review, setReview ] = useState(``)
+const apiUrl = import.meta.env.VITE_API_URL;
+fetch(`${apiUrl}/api/test`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    // your data here
+
+    
+  })
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log('Response from backend:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
 
   useEffect(() => {
     prism.highlightAll()
-  }, [])
+    
+  }, []);
+
+  function App() {
+  return (
+    <div>
+      <h1>Code Review App</h1>
+      <TestConnection />
+    </div>
+  );
+}
 
   async function reviewCode() {
     const response = await axios.post('http://localhost:3000/ai/get-review', { code })
